@@ -1,15 +1,18 @@
 import {Component} from 'react'
-
+import Header from '../Header'
 import './index.css'
 
-class Counter extends Component {
+class HomeRoute extends Component {
   render() {
     return (
-      <div>
-        <h1>Home Route</h1>
-      </div>
+      <>
+        <Header />
+        <div>
+          <h1>Home Route</h1>
+        </div>
+      </>
     )
   }
 }
 
-export default Counter
+export default HomeRoute
