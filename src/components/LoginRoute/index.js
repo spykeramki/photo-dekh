@@ -1,13 +1,4 @@
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap'
+import {Form, FormGroup, Label, Input, Container, Row, Col} from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import Cookies from 'js-cookie'
 import {Redirect} from 'react-router-dom'
@@ -53,6 +44,19 @@ class Counter extends Component {
     this.setState({password: event.target.value})
   }
 
+  setButton = () => {
+    const {username, password} = this.state
+    if (username !== '' && password !== '') {
+      return <button type="submit">Login</button>
+    }
+
+    return (
+      <button type="submit" disabled>
+        Login
+      </button>
+    )
+  }
+
   render() {
     const {username, password, errorMsg} = this.state
     const jwtToken = Cookies.get('jwt_token')
@@ -73,7 +77,7 @@ class Counter extends Component {
             <Col sm="5">
               <div className="form-container">
                 <img src="./img/photoDekhLogo.svg" alt="website logo" />
-                <p>Photo Dekho</p>
+                <h1>Photo Dekho</h1>
                 <Form onSubmit={this.onSubmitForm}>
                   <FormGroup>
                     <Label htmlFor="username">USERNAME</Label>
@@ -94,7 +98,7 @@ class Counter extends Component {
                     />
                   </FormGroup>
                   <p>{errorMsg}</p>
-                  <Button type="submit">Login</Button>
+                  {this.setButton()}
                 </Form>
               </div>
             </Col>
