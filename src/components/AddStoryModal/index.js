@@ -1,10 +1,13 @@
-import Popup from 'reactjs-popup'
+import Modal from 'react-modal'
 import Cookies from 'js-cookie'
-import 'reactjs-popup/dist/index.css'
+import {Component} from 'react'
+import {IoMdClose} from 'react-icons/io'
 
-const AddStoryModal = props => {
-  const addYourStory = async () => {
-    const {addNewYourStory} = props
+class AddStoryModal extends Component {
+  state = {isModalOpen: false}
+
+  addYourStory = async () => {
+    const {addNewYourStory} = this.props
     const jwtToken = Cookies.get('jwt_token')
     const url = 'https://apis.ccbp.in/insta-stories'
     const storyDetails = {
@@ -26,29 +29,46 @@ const AddStoryModal = props => {
     }
   }
 
-  return (
-    <Popup
-      trigger={
-        <div className="react-slick-item">
-          <img
-            className="poster"
-            src="./img/sampleProfileImage.svg"
-            width="100%"
-            height="100%"
-            alt="poster"
-          />
-          <p className="story-username">Your story</p>
-        </div>
-      }
-      modal
-    >
+  onModalOpen = () => {
+    this.setState({isModalOpen: true})
+  }
+
+  onClickClose = () => {
+    this.setState({isModalOpen: false})
+  }
+
+  render() {
+    const {isModalOpen} = this.state
+
+    return (
       <div>
-        <button type="button" onClick={addYourStory}>
-          Add Story
-        </button>
+        <div className="react-slick-item">
+          <button type="button" onClick={this.onModalOpen}>
+            <img
+              className="poster"
+              src="./img/sampleProfileImage.svg"
+              width="100%"
+              height="100%"
+              alt="poster"
+            />
+            <p className="story-username">Your story</p>
+          </button>
+        </div>
+        <Modal
+          isOpen={isModalOpen}
+          className="Modal"
+          overlayClassName="Overlay"
+        >
+          <div>
+            <IoMdClose onClick={this.onClickClose} />
+            <button type="button" onClick={this.addYourStory}>
+              Add Story
+            </button>
+          </div>
+        </Modal>
       </div>
-    </Popup>
-  )
+    )
+  }
 }
 
 export default AddStoryModal

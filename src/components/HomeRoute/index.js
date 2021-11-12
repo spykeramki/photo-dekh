@@ -5,38 +5,8 @@ import UserStoriesSlick from '../UserStoriesSlick'
 import FriendPost from '../FriendPost'
 import './index.css'
 
-const initialPostsList = [
-  {
-    postId: 'f25d77f0-602e-41d1-971e-4b8cf54709eb',
-    userId: 'Varun_Aadithya',
-    userName: 'Varun Aadithya',
-    profilePic:
-      'https://assets.ccbp.in/frontend/react-js/instagram-mini-project/users/instagram-mini-project-user-1-img.png',
-    postDetails: {
-      imageUrl:
-        'https://assets.ccbp.in/frontend/react-js/instagram-mini-project/posts/instagram-mini-project-post-1-img.png',
-      caption: 'Another day, another sunrise',
-    },
-    commentsCount: 2,
-    likesCount: 7,
-    comments: [
-      {
-        userName: 'Prabuddha Dasgupta',
-        userId: 'Prabuddha_Dasgupta',
-        comment: 'Lightning is incredible.',
-      },
-      {
-        userName: 'buddha gupta',
-        userId: 'buddha_Dgupta',
-        comment: 'incredible.',
-      },
-    ],
-    createdAt: '4 Hours Ago',
-  },
-]
-
 class HomeRoute extends Component {
-  state = {friendPostsList: initialPostsList, search: ''}
+  state = {friendPostsList: [], search: ''}
 
   componentDidMount() {
     this.getFriendsPostsList()

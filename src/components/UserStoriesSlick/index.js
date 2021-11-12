@@ -1,9 +1,7 @@
 import {Component} from 'react'
 import Slider from 'react-slick'
 import Cookies from 'js-cookie'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
-import ShowStoryModal from '../ShowStoryModal'
+import StoryModal from '../StoryModal'
 import AddStoryModal from '../AddStoryModal'
 import YourStory from '../YourStory'
 import './index.css'
@@ -58,7 +56,12 @@ const settings = {
 }
 
 class UserStoriesSlick extends Component {
-  state = {stories: [], status: 'loading'}
+  state = {
+    stories: [],
+    status: 'loading',
+    showModal: false,
+    selectedStoryId: '',
+  }
 
   componentDidMount() {
     this.getStoriesList()
@@ -112,6 +115,14 @@ class UserStoriesSlick extends Component {
     }))
   }
 
+  onClickStory = userId => {
+    this.setState({selectedStoryId: userId, showModal: true})
+  }
+
+  onCloseModal = () => {
+    this.setState({showModal: false})
+  }
+
   renderSlider = () => {
     const {stories} = this.state
     const {storiesList, myStory} = stories
@@ -124,20 +135,44 @@ class UserStoriesSlick extends Component {
         )}
 
         {storiesList.map(story => (
-          <ShowStoryModal storyAuthor={story} key={story.userId} />
+          <div className="react-slick-item" key={story.userId}>
+            <button
+              type="button"
+              onClick={() => this.onClickStory(story.userId)}
+            >
+              <img
+                className="poster"
+                src={story.profilePic}
+                width="100%"
+                height="100%"
+                alt="profile_pic"
+              />
+              <p className="story-username">{story.userName}</p>
+            </button>
+          </div>
         ))}
       </Slider>
     )
   }
 
   render() {
-    const {status} = this.state
+    const {status, showModal, selectedStoryId} = this.state
     return (
       <div className="slick-app-container">
         {status === 'loading' ? (
           ''
         ) : (
-          <div style={{width: '80%'}}>{this.renderSlider()}</div>
+          <>
+            <div style={{width: '80%'}}>{this.renderSlider()}</div>
+            {showModal ? (
+              <StoryModal
+                userId={selectedStoryId}
+                onCloseModal={this.onCloseModal}
+              />
+            ) : (
+              ''
+            )}
+          </>
         )}
       </div>
     )

@@ -3,7 +3,7 @@ import {AiFillHome} from 'react-icons/ai'
 import {BsSearch} from 'react-icons/bs'
 import {Link} from 'react-router-dom'
 import UserAddPostModal from '../UserAddPostModal'
-import ProfilePopup from '../ProfilePopup'
+import ProfileIconStrap from '../ProfileIconStrap'
 import './index.css'
 
 class Header extends Component {
@@ -22,7 +22,7 @@ class Header extends Component {
               <AiFillHome data-testid="homeFilled" />
             </button>
           </Link>
-          <ProfilePopup data-testid="popover" />
+          <ProfileIconStrap data-testid="popover" />
           <UserAddPostModal />
         </nav>
       </div>

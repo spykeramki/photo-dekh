@@ -1,9 +1,20 @@
-import Popup from 'reactjs-popup'
 import Cookies from 'js-cookie'
-import 'reactjs-popup/dist/index.css'
+import Modal from 'react-modal'
+import {IoMdClose} from 'react-icons/io'
+import {Component} from 'react'
 
-const UserAddPostModal = () => {
-  const addYourPost = async () => {
+class UserAddPostModal extends Component {
+  state = {isModalOpen: false}
+
+  onModalOpen = () => {
+    this.setState({isModalOpen: true})
+  }
+
+  onClickClose = () => {
+    this.setState({isModalOpen: false})
+  }
+
+  addYourPost = async () => {
     const jwtToken = Cookies.get('jwt_token')
     const url = 'https://apis.ccbp.in/insta-posts'
     const postDetails = {
@@ -24,15 +35,29 @@ const UserAddPostModal = () => {
       console.log(data.post)
     }
   }
-  return (
-    <Popup trigger={<button type="button">Add Post</button>} modal>
-      <div>
-        <button type="button" onClick={addYourPost}>
+
+  render() {
+    const {isModalOpen} = this.state
+    return (
+      <>
+        <button type="button" onClick={this.onModalOpen}>
           Add Post
         </button>
-      </div>
-    </Popup>
-  )
+        <Modal
+          isOpen={isModalOpen}
+          className="Modal"
+          overlayClassName="Overlay"
+        >
+          <div>
+            <IoMdClose onClick={this.onClickClose} />
+            <button type="button" onClick={this.addYourPost}>
+              Add Post
+            </button>
+          </div>
+        </Modal>
+      </>
+    )
+  }
 }
 
 export default UserAddPostModal
