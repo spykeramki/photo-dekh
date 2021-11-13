@@ -42,17 +42,27 @@ class ProfileIconStrap extends Component {
           isOpen={popoverOpen}
           target="Popover1"
           toggle={this.toggle}
-          testId="popover"
+          testid="popover"
         >
           <PopoverBody>
             <div className="pop-over-body">
               <div>
-                <IoMdClose onClick={this.toggle} data-testid="closeIcon" />
-                <button type="button" onClick={this.onClickProfile}>
-                  <CgProfile data-testid="popOverMenuProfileIcon" /> Profile
+                <button type="button" testid="closeIcon">
+                  <IoMdClose onClick={this.toggle} />
                 </button>
-                <button type="button" onClick={this.onClickLogout}>
-                  <FiLogOut data-testid="popOverMenuLogOutIcon" /> Logout
+                <button
+                  type="button"
+                  onClick={this.onClickProfile}
+                  testid="popOverMenuProfileIcon"
+                >
+                  <CgProfile /> Profile
+                </button>
+                <button
+                  type="button"
+                  onClick={this.onClickLogout}
+                  testid="popOverMenuLogOutIcon"
+                >
+                  <FiLogOut /> Logout
                 </button>
               </div>
             </div>

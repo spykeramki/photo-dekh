@@ -91,13 +91,13 @@ class FriendPost extends Component {
             <div className="user-actions-icons">
               <button type="button" onClick={onClickLike}>
                 {isLiked ? (
-                  <FcLike data-testid="unLikeIcon" />
+                  <FcLike testid="unLikeIcon" />
                 ) : (
-                  <BsHeart data-testid="likeIcon" />
+                  <BsHeart testid="likeIcon" />
                 )}
               </button>
-              <FaRegComment data-testid="commentIcon" />
-              <BiShareAlt data-testid="shareIcon" />
+              <FaRegComment testid="commentIcon" />
+              <BiShareAlt testid="shareIcon" />
             </div>
           )
 
@@ -135,7 +135,7 @@ class FriendPost extends Component {
           )
 
           return (
-            <li className="friend-post-bg-container">
+            <li className="friend-post-bg-container" testid="postItem">
               {renderProfileDetails()}
               <div className="post-container">
                 <img

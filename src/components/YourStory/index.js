@@ -36,7 +36,7 @@ class YourStory extends Component {
           className="Modal"
           overlayClassName="Overlay"
         >
-          <div data-testid="userStoryModal">
+          <div testid="userStoryModal">
             <IoMdClose onClick={this.onClickClose} />
             <h1>Stories</h1>
             <img

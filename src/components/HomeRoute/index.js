@@ -72,11 +72,11 @@ class HomeRoute extends Component {
       <>
         <Header />
 
-        <div className="home-bg-container">
+        {/* <div className="home-bg-container">
           {this.renderStories()}
 
           {this.renderFriendPosts()}
-        </div>
+        </div> */}
       </>
     )
   }

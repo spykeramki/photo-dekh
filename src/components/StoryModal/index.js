@@ -59,7 +59,7 @@ class StoryModal extends Component {
 
     return (
       <Modal isOpen={isModalOpen} className="Modal" overlayClassName="Overlay">
-        <div data-testid="userStoryModal">
+        <div testid="userStoryModal">
           {status === 'loading' ? (
             ''
           ) : (
