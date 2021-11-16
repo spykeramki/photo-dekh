@@ -1,12 +1,20 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 import Header from '../Header'
 import UserStoriesSlick from '../UserStoriesSlick'
 import FriendPost from '../FriendPost'
+
 import './index.css'
 
+const loadingStatus = {
+  loading: 'LOADING',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+}
+
 class HomeRoute extends Component {
-  state = {friendPostsList: [], search: ''}
+  state = {friendPostsList: [], search: '', isLoading: true}
 
   componentDidMount() {
     this.getFriendsPostsList()
@@ -44,7 +52,7 @@ class HomeRoute extends Component {
           userName: comment.user_name,
         })),
       }))
-      this.setState({friendPostsList: updatedData})
+      this.setState({friendPostsList: updatedData, isLoading: false})
     }
   }
 
@@ -98,14 +106,20 @@ class HomeRoute extends Component {
   }
 
   render() {
-    const {search} = this.state
+    const {search, isLoading} = this.state
     return (
       <>
         <Header changeSearchInput={this.changeSearchInput} search={search} />
-        <div className="home-bg-container">
-          {search === '' ? this.renderStories() : ''}
-          {this.renderFriendPosts()}
-        </div>
+        {isLoading ? (
+          <div testid="userStoriesLoader">
+            <Loader type="ThreeDots" color="blue" />
+          </div>
+        ) : (
+          <div className="home-bg-container">
+            {search === '' ? this.renderStories() : ''}
+            {this.renderFriendPosts()}
+          </div>
+        )}
       </>
     )
   }

@@ -2,6 +2,7 @@ import Modal from 'react-modal'
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import {IoMdClose} from 'react-icons/io'
+import Loader from 'react-loader-spinner'
 import './index.css'
 
 class StoryModal extends Component {
@@ -61,7 +62,9 @@ class StoryModal extends Component {
       <Modal isOpen={isModalOpen} className="Modal" overlayClassName="Overlay">
         <div testid="userStoryModal">
           {status === 'loading' ? (
-            ''
+            <div testid="userStoryLoader">
+              <Loader type="ThreeDots" color="blue" />
+            </div>
           ) : (
             <div>
               <IoMdClose onClick={this.onClickClose} />

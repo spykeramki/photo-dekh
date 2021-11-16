@@ -126,15 +126,21 @@ class FriendPost extends Component {
 
           const renderUserActions = () => (
             <div className="user-actions-icons">
-              <button type="button" onClick={onClickLike}>
-                {isLiked ? (
-                  <FcLike testid="unLikeIcon" />
-                ) : (
-                  <BsHeart testid="likeIcon" />
-                )}
+              {isLiked ? (
+                <button type="button" onClick={onClickLike} testid="unLikeIcon">
+                  <FcLike />
+                </button>
+              ) : (
+                <button type="button" onClick={onClickLike} testid="likeIcon">
+                  <BsHeart />
+                </button>
+              )}
+              <button type="button" testid="commentIcon">
+                <FaRegComment />
               </button>
-              <FaRegComment testid="commentIcon" />
-              <BiShareAlt testid="shareIcon" />
+              <button type="button" testid="shareIcon">
+                <BiShareAlt />
+              </button>
             </div>
           )
 

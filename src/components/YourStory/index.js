@@ -18,7 +18,7 @@ class YourStory extends Component {
     const {id, storyImage, caption} = yourStory
     const {isModalOpen} = this.state
     return (
-      <div>
+      <>
         <div className="react-slick-item" key={id}>
           <button type="button" onClick={this.onModalOpen}>
             <img
@@ -44,14 +44,14 @@ class YourStory extends Component {
               src="./img/sampleProfileImage.svg"
               width="100%"
               height="100%"
-              alt="user story profile pic"
+              alt="user story profile"
             />
             <p className="story-username">Rahul</p>
-            <img src={storyImage} alt="user story pic" />
+            <img src={storyImage} alt="user story" />
             <p className="story-username">{caption}</p>
           </div>
         </Modal>
-      </div>
+      </>
     )
   }
 }
