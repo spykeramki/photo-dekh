@@ -14,6 +14,7 @@ class App extends Component {
 
   changeLikeStatus = (id, status) => {
     const {likesStatusList} = this.state
+    console.log(likesStatusList)
     const postObject = likesStatusList.find(eachItem => eachItem.id === id)
     if (postObject === undefined) {
       this.setState(prevState => ({

@@ -13,8 +13,9 @@ class HomeRoute extends Component {
   }
 
   getFriendsPostsList = async () => {
+    const {search} = this.state
     const jwtToken = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/insta-posts'
+    const url = `https://apis.ccbp.in/insta-posts?search=${search}`
     const options = {
       method: 'GET',
       headers: {
@@ -53,30 +54,58 @@ class HomeRoute extends Component {
     </div>
   )
 
+  renderAddedComment = (commentDetails, postId) => {
+    this.setState(prevState => ({
+      friendPostsList: prevState.friendPostsList.map(eachItem => {
+        if (eachItem.postId === postId) {
+          return {
+            ...eachItem,
+            comments: [...eachItem.comments, commentDetails],
+            commentsCount: eachItem.commentsCount + 1,
+          }
+        }
+        return eachItem
+      }),
+    }))
+  }
+
   renderFriendPosts = () => {
-    const {friendPostsList, search} = this.state
-    const updatedList = friendPostsList.filter(eachItem =>
-      eachItem.postDetails.caption.toLowerCase().includes(search.toLowerCase()),
-    )
+    const {friendPostsList} = this.state
+    if (friendPostsList.length === 0) {
+      return (
+        <>
+          <img src="./img/noSearch.svg" alt="search not found" />
+          <h1>Search Not Found</h1>
+          <p>Try different keyword or search again</p>
+        </>
+      )
+    }
     return (
       <ul>
-        {updatedList.map(eachItem => (
-          <FriendPost friendPostDetails={eachItem} key={eachItem.postId} />
+        {friendPostsList.map(eachItem => (
+          <FriendPost
+            friendPostDetails={eachItem}
+            renderAddedComment={this.renderAddedComment}
+            key={eachItem.postId}
+          />
         ))}
       </ul>
     )
   }
 
+  changeSearchInput = search => {
+    this.setState({search}, this.getFriendsPostsList)
+  }
+
   render() {
+    const {search} = this.state
     return (
       <>
-        <Header />
-
-        {/* <div className="home-bg-container">
-          {this.renderStories()}
-
+        <Header changeSearchInput={this.changeSearchInput} search={search} />
+        <div className="home-bg-container">
+          {search === '' ? this.renderStories() : ''}
           {this.renderFriendPosts()}
-        </div> */}
+        </div>
       </>
     )
   }

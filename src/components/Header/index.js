@@ -7,14 +7,13 @@ import ProfileIconStrap from '../ProfileIconStrap'
 import './index.css'
 
 class Header extends Component {
-  state = {searchInput: ''}
-
   onChangeSearch = event => {
-    this.setState({searchInput: event.target.value})
+    const {changeSearchInput} = this.props
+    changeSearchInput(event.target.value)
   }
 
   render() {
-    const {searchInput} = this.state
+    const {search} = this.props
     return (
       <nav className="header-navbar">
         <Link to="/">
@@ -25,12 +24,10 @@ class Header extends Component {
           type="search"
           className="search"
           placeholder="Search"
-          value={searchInput}
+          value={search}
           onChange={this.onChangeSearch}
         />
-        <button type="button" testid="searchIcon">
-          <FaSearch />
-        </button>
+        <FaSearch testid="searchIcon" />
         <Link to="/">
           <button
             type="button"
