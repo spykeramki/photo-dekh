@@ -146,7 +146,7 @@ class FriendPost extends Component {
 
           const renderPostPopularity = () => (
             <div>
-              <p>{likesCount} likes</p>
+              <p>{isLiked ? likesCount + 1 : likesCount} likes</p>
               <p>{postDetails.caption}</p>
               <p>View all {commentsCount} comments</p>
             </div>
