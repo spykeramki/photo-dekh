@@ -70,8 +70,8 @@ class HomeRoute extends Component {
   }
 
   renderFriendPosts = () => {
-    const {friendPostsList} = this.state
-    if (friendPostsList.length === 0) {
+    const {friendPostsList, search} = this.state
+    if (friendPostsList.length === 0 && search !== '') {
       return (
         <>
           <img src="./img/noSearch.svg" alt="search not found" />
