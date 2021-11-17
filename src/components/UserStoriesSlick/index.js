@@ -145,7 +145,7 @@ class UserStoriesSlick extends Component {
                 src={story.profilePic}
                 width="100%"
                 height="100%"
-                alt="profile_pic"
+                alt="user story"
               />
               <p className="story-username">{story.userName}</p>
             </button>

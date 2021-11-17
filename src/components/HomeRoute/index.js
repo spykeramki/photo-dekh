@@ -30,6 +30,7 @@ class HomeRoute extends Component {
         Authorization: `Bearer ${jwtToken}`,
       },
     }
+    this.setState({isLoading: true})
     const response = await fetch(url, options)
     if (response.ok) {
       const data = await response.json()
@@ -110,13 +111,27 @@ class HomeRoute extends Component {
     return (
       <>
         <Header changeSearchInput={this.changeSearchInput} search={search} />
+
         {isLoading ? (
-          <div testid="userStoriesLoader">
-            <Loader type="ThreeDots" color="blue" />
+          <div>
+            {search === '' ? (
+              <>
+                <div testid="postListLoader">
+                  <Loader type="ThreeDots" color="blue" />
+                </div>
+                <div testid="userStoriesLoader">
+                  <Loader type="ThreeDots" color="blue" />
+                </div>
+              </>
+            ) : (
+              <div testid="searchPostsLoader">
+                <Loader type="ThreeDots" color="blue" />
+              </div>
+            )}
           </div>
         ) : (
           <div className="home-bg-container">
-            {search === '' ? this.renderStories() : ''}
+            {search === '' ? this.renderStories() : <h1>Search Results</h1>}
             {this.renderFriendPosts()}
           </div>
         )}
