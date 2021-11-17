@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Slider from 'react-slick'
+import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
 import StoryModal from '../StoryModal'
 import AddStoryModal from '../AddStoryModal'
@@ -160,7 +161,9 @@ class UserStoriesSlick extends Component {
     return (
       <div className="slick-app-container">
         {status === 'loading' ? (
-          ''
+          <div testid="userStoriesLoader">
+            <Loader type="ThreeDots" color="blue" />
+          </div>
         ) : (
           <>
             <div style={{width: '80%'}}>{this.renderSlider()}</div>

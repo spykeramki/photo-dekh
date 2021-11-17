@@ -7,12 +7,6 @@ import FriendPost from '../FriendPost'
 
 import './index.css'
 
-const loadingStatus = {
-  loading: 'LOADING',
-  success: 'SUCCESS',
-  failure: 'FAILURE',
-}
-
 class HomeRoute extends Component {
   state = {friendPostsList: [], search: '', isLoading: true}
 
@@ -117,9 +111,6 @@ class HomeRoute extends Component {
             {search === '' ? (
               <>
                 <div testid="postListLoader">
-                  <Loader type="ThreeDots" color="blue" />
-                </div>
-                <div testid="userStoriesLoader">
                   <Loader type="ThreeDots" color="blue" />
                 </div>
               </>

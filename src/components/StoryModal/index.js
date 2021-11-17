@@ -67,7 +67,9 @@ class StoryModal extends Component {
             </div>
           ) : (
             <div>
-              <IoMdClose onClick={this.onClickClose} />
+              <button type="button" testid="closeIcon">
+                <IoMdClose onClick={this.onClickClose} />
+              </button>
               <h1>Stories</h1>
               <img
                 className="poster"
@@ -76,9 +78,9 @@ class StoryModal extends Component {
                 height="100%"
                 alt="user story profile pic"
               />
-              <p className="story-username">{userName}</p>
-              <img src={storyDetails.imageUrl} alt="user story pic" />
-              <p className="story-username">{storyDetails.caption}</p>
+              <span className="story-username">{userName}</span>
+              <img src={storyDetails.imageUrl} alt="user story" />
+              <span className="story-username">{storyDetails.caption}</span>
             </div>
           )}
         </div>

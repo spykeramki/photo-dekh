@@ -25,6 +25,7 @@ class FriendPost extends Component {
       userName,
     }
     renderAddedComment(commentDetails, postId)
+    this.setState({commentText: ''})
   }
 
   addComment = async () => {
@@ -156,7 +157,7 @@ class FriendPost extends Component {
             <ul>
               {comments.map(eachItem => (
                 <li key={eachItem.userId}>
-                  <p>{eachItem.userName}</p>
+                  <span>{eachItem.userName}</span>
                   <p>{eachItem.comment}</p>
                 </li>
               ))}
@@ -174,10 +175,17 @@ class FriendPost extends Component {
                 type="text"
                 onChange={this.changeComment}
                 value={commentText}
+                placeholder="Add a comment..."
               />
-              <button type="button" onClick={this.addComment}>
-                Post
-              </button>
+              {commentText === '' ? (
+                <button type="button" disabled>
+                  Post
+                </button>
+              ) : (
+                <button type="button" onClick={this.addComment}>
+                  Post
+                </button>
+              )}
             </div>
           )
 

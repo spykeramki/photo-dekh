@@ -46,9 +46,9 @@ class YourStory extends Component {
               height="100%"
               alt="user story profile"
             />
-            <p className="story-username">Rahul</p>
+            <span className="story-username">Rahul</span>
             <img src={storyImage} alt="user story" />
-            <p className="story-username">{caption}</p>
+            <span className="story-username">{caption}</span>
           </div>
         </Modal>
       </>

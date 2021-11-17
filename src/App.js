@@ -6,6 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import MyProfile from './components/MyProfile'
 import EditProfile from './components/EditProfile'
 import UserDetailsRoute from './components/UserDetailsRoute'
+import NotFoundRoute from './components/NotFoundRoute'
 import LikesContext from './context'
 import './App.css'
 
@@ -48,7 +49,7 @@ class App extends Component {
           <ProtectedRoute exact path="/my-profile" component={MyProfile} />
           <ProtectedRoute exact path="/edit-profile" component={EditProfile} />
           <ProtectedRoute exact path="/user/:id" component={UserDetailsRoute} />
-          <Route exact path="/not-found" component={HomeRoute} />
+          <Route exact path="/not-found" component={NotFoundRoute} />
           <Redirect to="not-found" />
         </Switch>
       </LikesContext.Provider>

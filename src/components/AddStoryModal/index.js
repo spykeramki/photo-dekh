@@ -60,7 +60,9 @@ class AddStoryModal extends Component {
           overlayClassName="Overlay"
         >
           <div>
-            <IoMdClose onClick={this.onClickClose} />
+            <button type="button" testid="closeIcon">
+              <IoMdClose onClick={this.onClickClose} />
+            </button>
             <button type="button" onClick={this.addYourStory}>
               Add Story
             </button>
