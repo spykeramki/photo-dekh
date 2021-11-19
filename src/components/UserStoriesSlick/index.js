@@ -1,7 +1,6 @@
 import {Component} from 'react'
 import Slider from 'react-slick'
 import Loader from 'react-loader-spinner'
-import Cookies from 'js-cookie'
 import StoryModal from '../StoryModal'
 import AddStoryModal from '../AddStoryModal'
 import YourStory from '../YourStory'
@@ -58,62 +57,23 @@ const settings = {
 
 class UserStoriesSlick extends Component {
   state = {
-    stories: [],
-    status: 'loading',
     showModal: false,
     selectedStoryId: '',
   }
 
-  componentDidMount() {
-    this.getStoriesList()
-  }
-
-  getStoriesList = async () => {
-    const jwtToken = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/insta-stories'
-    const options = {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    }
-    const response = await fetch(url, options)
-    if (response.ok) {
-      const data = await response.json()
-      const updatedData = data.users_stories.map(eachItem => ({
-        userId: eachItem.user_id,
-        userName: eachItem.user_name,
-        profilePic: eachItem.profile_pic,
-      }))
-      let myStory
-      if (data.my_story !== null) {
-        myStory = {
-          id: data.my_story.id,
-          storyImage: data.my_story.story_image,
-          caption: data.my_story.caption,
-        }
-      } else {
-        myStory = null
-      }
-      myStory = data.my_story
-      this.setState({
-        stories: {storiesList: updatedData, myStory},
-        status: 'success',
-      })
-    } else {
-      this.setState({status: 'failure'})
-    }
-  }
+  //   showFailureView = () => {
+  //     const {userStoriesStatus} = this.props
+  //     userStoriesStatus()
+  //   }
 
   addNewYourStory = story => {
+    const {setNewStory} = this.props
     const updatedStory = {
       id: story.id,
       storyImage: story.story_image,
       caption: story.caption,
     }
-    this.setState(prevState => ({
-      stories: {...prevState.stories, myStory: updatedStory},
-    }))
+    setNewStory(updatedStory)
   }
 
   onClickStory = userId => {
@@ -125,7 +85,7 @@ class UserStoriesSlick extends Component {
   }
 
   renderSlider = () => {
-    const {stories} = this.state
+    const {stories} = this.props
     const {storiesList, myStory} = stories
     return (
       <Slider {...settings}>
@@ -156,8 +116,31 @@ class UserStoriesSlick extends Component {
     )
   }
 
+  renderView = () => {
+    const {showModal, selectedStoryId} = this.state
+    const {status} = this.props
+    if (status === 'success') {
+      return (
+        <>
+          <div style={{width: '80%'}}>{this.renderSlider()}</div>
+          {showModal ? (
+            <StoryModal
+              userId={selectedStoryId}
+              onCloseModal={this.onCloseModal}
+            />
+          ) : (
+            ''
+          )}
+        </>
+      )
+    }
+
+    return ''
+  }
+
   render() {
-    const {status, showModal, selectedStoryId} = this.state
+    const {status} = this.props
+    console.log(status)
     return (
       <div className="slick-app-container">
         {status === 'loading' ? (
@@ -165,17 +148,7 @@ class UserStoriesSlick extends Component {
             <Loader type="ThreeDots" color="blue" />
           </div>
         ) : (
-          <>
-            <div style={{width: '80%'}}>{this.renderSlider()}</div>
-            {showModal ? (
-              <StoryModal
-                userId={selectedStoryId}
-                onCloseModal={this.onCloseModal}
-              />
-            ) : (
-              ''
-            )}
-          </>
+          this.renderView()
         )}
       </div>
     )

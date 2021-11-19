@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import {BiCamera} from 'react-icons/bi'
 import {BsGrid3X3} from 'react-icons/bs'
 import Loader from 'react-loader-spinner'
-
+import Header from '../Header'
 import MyProfileDetails from '../MyProfileDetails'
 import ListOfStories from '../ListOfStories'
 import ListOfPosts from '../ListOfPosts'
@@ -148,7 +148,12 @@ class MyProfile extends Component {
   }
 
   render() {
-    return <div>{this.renderAllProfileDetails()}</div>
+    return (
+      <>
+        <Header />
+        <div>{this.renderAllProfileDetails()}</div>
+      </>
+    )
   }
 }
 

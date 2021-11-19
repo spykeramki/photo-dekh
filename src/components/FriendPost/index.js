@@ -157,7 +157,9 @@ class FriendPost extends Component {
             <ul>
               {comments.map(eachItem => (
                 <li key={eachItem.userId}>
-                  <span>{eachItem.userName}</span>
+                  <Link to={`/user/${eachItem.userId}`}>
+                    <span>{eachItem.userName}</span>
+                  </Link>
                   <p>{eachItem.comment}</p>
                 </li>
               ))}

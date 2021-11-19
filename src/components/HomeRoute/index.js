@@ -6,25 +6,74 @@ import UserStoriesSlick from '../UserStoriesSlick'
 import FriendPost from '../FriendPost'
 
 import './index.css'
+import FailureView from '../FailureView'
 
 class HomeRoute extends Component {
-  state = {friendPostsList: [], search: '', isLoading: true}
+  state = {
+    friendPostsList: [],
+    search: '',
+    isLoading: 'loading',
+    stories: [],
+    storiesStatus: 'loading',
+  }
 
   componentDidMount() {
+    this.getStoriesList()
     this.getFriendsPostsList()
   }
 
-  getFriendsPostsList = async () => {
-    const {search} = this.state
+  getStoriesList = async () => {
     const jwtToken = Cookies.get('jwt_token')
-    const url = `https://apis.ccbp.in/insta-posts?search=${search}`
+    const url = 'https://apis.ccbp.in/insta-stories'
     const options = {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
     }
-    this.setState({isLoading: true})
+    this.setState({storiesStatus: 'loading'})
+    const response = await fetch(url, options)
+    if (response.ok) {
+      const data = await response.json()
+      const updatedData = data.users_stories.map(eachItem => ({
+        userId: eachItem.user_id,
+        userName: eachItem.user_name,
+        profilePic: eachItem.profile_pic,
+      }))
+      let myStory
+      if (data.my_story !== null) {
+        myStory = {
+          id: data.my_story.id,
+          storyImage: data.my_story.story_image,
+          caption: data.my_story.caption,
+        }
+      } else {
+        myStory = null
+      }
+      myStory = data.my_story
+      this.setState({
+        stories: {storiesList: updatedData, myStory},
+        storiesStatus: 'success',
+      })
+    } else {
+      this.setState({storiesStatus: 'failure'})
+    }
+  }
+
+  getFriendsPostsList = async () => {
+    const {search} = this.state
+    const jwtToken = Cookies.get('jwt_token')
+    const url =
+      search === ''
+        ? 'https://apis.ccbp.in/insta-posts'
+        : `https://apis.ccbp.in/insta-posts?search=${search}`
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
+    this.setState({isLoading: 'loading'})
     const response = await fetch(url, options)
     if (response.ok) {
       const data = await response.json()
@@ -47,15 +96,34 @@ class HomeRoute extends Component {
           userName: comment.user_name,
         })),
       }))
-      this.setState({friendPostsList: updatedData, isLoading: false})
+      this.setState({friendPostsList: updatedData, isLoading: 'success'})
+    } else {
+      this.setState({isLoading: 'failure'})
     }
   }
 
-  renderStories = () => (
-    <div className="stories-container">
-      <UserStoriesSlick />
-    </div>
-  )
+  //   userStoriesStatus = () => {
+  //     this.setState({isLoading: 'failure'})
+  //   }
+
+  setNewStory = story => {
+    this.setState(prevState => ({
+      stories: {...prevState.stories, myStory: story},
+    }))
+  }
+
+  renderStories = () => {
+    const {stories, storiesStatus} = this.state
+    return (
+      <div className="stories-container">
+        <UserStoriesSlick
+          setNewStory={this.setNewStory}
+          stories={stories}
+          status={storiesStatus}
+        />
+      </div>
+    )
+  }
 
   renderAddedComment = (commentDetails, postId) => {
     this.setState(prevState => ({
@@ -96,6 +164,23 @@ class HomeRoute extends Component {
     )
   }
 
+  tryAgainApiCall = () => {
+    this.setState({isLoading: 'loading'}, this.getFriendsPostsList)
+  }
+
+  renderView = () => {
+    const {isLoading, search} = this.state
+    if (isLoading === 'success') {
+      return (
+        <div className="home-bg-container">
+          {search === '' ? this.renderStories() : <h1>Search Results</h1>}
+          {this.renderFriendPosts()}
+        </div>
+      )
+    }
+    return <FailureView tryAgainApiCall={this.tryAgainApiCall} />
+  }
+
   changeSearchInput = search => {
     this.setState({search}, this.getFriendsPostsList)
   }
@@ -106,7 +191,7 @@ class HomeRoute extends Component {
       <>
         <Header changeSearchInput={this.changeSearchInput} search={search} />
 
-        {isLoading ? (
+        {isLoading === 'loading' ? (
           <div>
             {search === '' ? (
               <>
@@ -121,10 +206,7 @@ class HomeRoute extends Component {
             )}
           </div>
         ) : (
-          <div className="home-bg-container">
-            {search === '' ? this.renderStories() : <h1>Search Results</h1>}
-            {this.renderFriendPosts()}
-          </div>
+          this.renderView()
         )}
       </>
     )
