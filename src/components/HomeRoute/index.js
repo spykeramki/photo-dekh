@@ -102,10 +102,6 @@ class HomeRoute extends Component {
     }
   }
 
-  //   userStoriesStatus = () => {
-  //     this.setState({isLoading: 'failure'})
-  //   }
-
   setNewStory = story => {
     this.setState(prevState => ({
       stories: {...prevState.stories, myStory: story},
@@ -168,15 +164,17 @@ class HomeRoute extends Component {
     this.setState({isLoading: 'loading'}, this.getFriendsPostsList)
   }
 
+  tryAgainStoriesApiCall = () => {
+    this.setState({storiesStatus: 'loading'}, this.getStoriesList)
+  }
+
   renderView = () => {
-    const {isLoading, search} = this.state
-    if (isLoading === 'success') {
-      return (
-        <div className="home-bg-container">
-          {search === '' ? this.renderStories() : <h1>Search Results</h1>}
-          {this.renderFriendPosts()}
-        </div>
-      )
+    const {isLoading, storiesStatus} = this.state
+    if (isLoading === 'success' && storiesStatus === 'success') {
+      return this.renderFriendPosts()
+    }
+    if (storiesStatus === 'failure') {
+      return <FailureView tryAgainApiCall={this.tryAgainStoriesApiCall} />
     }
     return <FailureView tryAgainApiCall={this.tryAgainApiCall} />
   }
@@ -190,24 +188,26 @@ class HomeRoute extends Component {
     return (
       <>
         <Header changeSearchInput={this.changeSearchInput} search={search} />
-
-        {isLoading === 'loading' ? (
-          <div>
-            {search === '' ? (
-              <>
-                <div testid="postListLoader">
+        <div className="home-bg-container">
+          {search === '' ? this.renderStories() : <h1>Search Results</h1>}
+          {isLoading === 'loading' ? (
+            <div>
+              {search === '' ? (
+                <>
+                  <div testid="postListLoader">
+                    <Loader type="ThreeDots" color="blue" />
+                  </div>
+                </>
+              ) : (
+                <div testid="searchPostsLoader">
                   <Loader type="ThreeDots" color="blue" />
                 </div>
-              </>
-            ) : (
-              <div testid="searchPostsLoader">
-                <Loader type="ThreeDots" color="blue" />
-              </div>
-            )}
-          </div>
-        ) : (
-          this.renderView()
-        )}
+              )}
+            </div>
+          ) : (
+            this.renderView()
+          )}
+        </div>
       </>
     )
   }

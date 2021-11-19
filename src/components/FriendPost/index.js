@@ -168,11 +168,7 @@ class FriendPost extends Component {
 
           const renderAddCommentSection = () => (
             <div>
-              <img
-                src={profilePic}
-                className="friend-profile-image"
-                alt="my profile"
-              />
+              <img src="" className="friend-profile-image" alt="my profile" />
               <input
                 type="text"
                 onChange={this.changeComment}

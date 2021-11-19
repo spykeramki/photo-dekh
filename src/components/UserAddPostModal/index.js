@@ -49,7 +49,9 @@ class UserAddPostModal extends Component {
           overlayClassName="Overlay"
         >
           <div>
-            <IoMdClose onClick={this.onClickClose} />
+            <button type="button" onClick={this.onClickClose}>
+              <IoMdClose />
+            </button>
             <button type="button" onClick={this.addYourPost}>
               Add Post
             </button>

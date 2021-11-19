@@ -1,5 +1,3 @@
-import Header from '../Header'
-
 const FailureView = props => {
   const {tryAgainApiCall} = props
   const onClickTryAgain = () => {

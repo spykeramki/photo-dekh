@@ -67,8 +67,12 @@ class StoryModal extends Component {
             </div>
           ) : (
             <div>
-              <button type="button" testid="closeIcon">
-                <IoMdClose onClick={this.onClickClose} />
+              <button
+                type="button"
+                testid="closeIcon"
+                onClick={this.onClickClose}
+              >
+                <IoMdClose />
               </button>
               <h1>Stories</h1>
               <img

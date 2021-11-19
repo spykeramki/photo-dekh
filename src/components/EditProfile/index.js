@@ -158,15 +158,21 @@ class EditProfile extends Component {
   )
 
   onChangeUserName = event => {
-    const username = event.target.value
-
-    this.setState({userName: username})
+    this.setState(prevState => ({
+      profileDetails: {
+        ...prevState.profileDetails,
+        userName: event.target.value,
+      },
+    }))
   }
 
   onChangeBio = event => {
-    const bioOfUser = event.target.value
-
-    this.setState({bio: bioOfUser})
+    this.setState(prevState => ({
+      profileDetails: {
+        ...prevState.profileDetails,
+        userBio: event.target.value,
+      },
+    }))
   }
 
   onChangeGender = event => {
@@ -180,21 +186,22 @@ class EditProfile extends Component {
   }
 
   renderProfileDetailsView = () => {
-    const {phoneNumber, userName, bio, id, profileDetails} = this.state
+    const {phoneNumber, profileDetails} = this.state
 
-    const {profilePic} = profileDetails
+    const {profilePic, userId, userName, userBio} = profileDetails
 
     return (
       <div>
         <form onSubmit={this.updateProfileDetails}>
           <h1>Edit Profile</h1>
           <div>
-            <img src={profilePic} alt="edit profile route profile pic" />
-            <p>{userName}</p>
+            <img src={profilePic} alt="my profile" />
+            <h1>{userId}</h1>
           </div>
           <div>
             <label htmlFor="username">User Name</label>
             <input
+              type="text"
               value={userName}
               id="username"
               onChange={this.onChangeUserName}
@@ -202,15 +209,21 @@ class EditProfile extends Component {
           </div>
           <div>
             <label htmlFor="userid">User Id</label>
-            <p>{id}</p>
+            <input type="text" value={userId} id="userid" disabled />
           </div>
           <div>
             <label htmlFor="bio">Bio</label>
-            <input value={bio} id="bio" onChange={this.onChangeBio} />
+            <textarea
+              type="textarea"
+              value={userBio}
+              id="bio"
+              onChange={this.onChangeBio}
+            />
           </div>
           <div>
             <label htmlFor="phone">Phone Number</label>
             <input
+              type="tel"
               value={phoneNumber}
               id="phone"
               onChange={this.onChangePhoneNumber}
@@ -219,9 +232,9 @@ class EditProfile extends Component {
           <div>
             <label htmlFor="gender">Gender</label>
             <select id="gender" onChange={this.onChangeGender}>
-              <option>MALE</option>
-              <option>FEMALE</option>
-              <option>OTHER</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
             </select>
           </div>
           <button type="submit" onClick={this.notifyToster}>
